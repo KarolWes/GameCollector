@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="match_parent"
+    android:background="@color/highlight"
+    android:orientation="vertical"
+    tools:context=".StatsView">
+
+    <TextView
+        android:id="@+id/statTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/purple_500"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:text="Game Statistics"
+        android:textAlignment="center"
+        android:textColor="@color/highlight"
+        android:textSize="30sp" />
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow
+            android:id="@+id/tblrInfo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/table_odd"
+            android:gravity="center_horizontal"
+            android:paddingTop="15sp"
+            android:paddingEnd="15sp">
+
+            <TextView
+                android:id="@+id/statId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10sp"
+                android:text="index"
+                android:textAlignment="center"
+                android:textColor="@color/purple_500"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/statName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10sp"
+                android:text="title"
+                android:textAlignment="center"
+                android:textColor="@color/purple_500"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/statYear"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingHorizontal="10sp"
+                android:text="year"
+                android:textAlignment="center"
+                android:textColor="@color/purple_500"
+                android:textSize="20dp" />
+
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tblrPic"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="clip_horizontal|center_vertical"
+            android:background="@color/table_odd"
+            android:foregroundGravity="center_vertical"
+            android:gravity="center_horizontal|center_vertical"
+            android:paddingVertical="10dp">
+
+            <ImageView
+                android:id="@+id/statPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:foregroundGravity="center_vertical|center_horizontal"
+                app:srcCompat="@drawable/ic_rook_chess_svgrepo_com" />
+
+        </TableRow>
+
+    </TableLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <com.github.mikephil.charting.charts.LineChart
+                android:id="@+id/chart"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_marginHorizontal="30dp"
+                android:background="@color/white"
+                android:clickable="false"
+                android:clipToPadding="false"
+                android:paddingHorizontal="20dp"
+                android:paddingVertical="20dp"
+                tools:ignore="MissingConstraints">
+
+            </com.github.mikephil.charting.charts.LineChart>
+
+            <TableLayout
+                android:id="@+id/tblStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TableRow
+                    android:id="@+id/tblrActStat"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/highlight"
+                    android:gravity="center_horizontal"
+                    android:paddingVertical="10dp">
+
+                    <TextView
+                        android:id="@+id/syncText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:text="Synchonization date"
+                        android:textAlignment="center"
+                        android:textColor="@color/purple_500"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/rankText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="10dp"
+                        android:text="Rank"
+                        android:textAlignment="center"
+                        android:textColor="@color/purple_500"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

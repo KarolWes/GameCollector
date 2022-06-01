@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/drawable/ic_baseline_account_circle_24.xml" value="0.212" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/layout/activity_game_view.xml" value="0.264" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/layout/activity_main.xml" value="0.264" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/layout/activity_stats_view.xml" value="0.2" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/layout/content_scrolling.xml" value="0.2" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/layout/fragment_login.xml" value="0.1" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/layout/popup.xml" value="0.2" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/layout/progress_popup.xml" value="0.2" />
+        <entry key="..\:/Users/Karol/Documents/GameCollector/app/src/main/res/menu/menu_game_view.xml" value="0.20555555555555555" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.264" />
+      </ProjectState>
+    </option>
+  </component>
+</project>

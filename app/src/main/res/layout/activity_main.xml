@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/highlight"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/User"
+        android:layout_width="185dp"
+        android:layout_height="250dp"
+        android:onClick="clearData"
+        android:text="Button"
+        android:textColor="@color/highlight"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_baseline_account_circle_24"
+        app:iconGravity="top"
+        app:iconPadding="30dp"
+        app:iconTint="@color/highlight"
+        app:layout_constraintBottom_toTopOf="@+id/Games"
+        app:layout_constraintEnd_toStartOf="@+id/Sync"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/Adds"
+        android:layout_width="185dp"
+        android:layout_height="250dp"
+        android:onClick="addonsClicked"
+        android:text="Button"
+        android:textColor="@color/highlight"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_pawn_svgrepo_com"
+        app:iconGravity="top"
+        app:iconPadding="30dp"
+        app:iconTint="@color/highlight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/Games"
+        app:layout_constraintTop_toBottomOf="@+id/Sync" />
+
+    <Button
+        android:id="@+id/Games"
+        android:layout_width="185dp"
+        android:layout_height="250dp"
+        android:onClick="gamesClicked"
+        android:text="Button"
+        android:textColor="@color/highlight"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_rook_chess_svgrepo_com"
+        app:iconGravity="top"
+        app:iconPadding="30dp"
+        app:iconTint="@color/highlight"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/Adds"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/User" />
+
+    <Button
+        android:id="@+id/Sync"
+        android:layout_width="185dp"
+        android:layout_height="250dp"
+        android:onClick="syncClicked"
+        android:text="Button"
+        android:textColor="@color/highlight"
+        android:textSize="16sp"
+        app:icon="@drawable/ic_baseline_sync_24"
+        app:iconGravity="top"
+        app:iconPadding="30dp"
+        app:iconTint="@color/highlight"
+        app:layout_constraintBottom_toTopOf="@+id/Adds"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/User"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
