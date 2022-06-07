@@ -108,19 +108,7 @@ class MainActivity : AppCompatActivity() {
                     sleepyHead()
                 }
                 else{
-                    val builder = AlertDialog.Builder(this@MainActivity)
-                    builder.setMessage("Synchronisation failure.\nDo you want to continue?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes") { dialog, id ->
-                            dialog.dismiss()
-                            expired = false
-                        }
-                        .setNegativeButton("No") { dialog, id ->
-                            dialog.dismiss()
-                            finish()
-                        }
-                    val alert = builder.create()
-                    alert.show()
+                    a()
                 }
             }
             downloadFinished = true
@@ -156,6 +144,22 @@ class MainActivity : AppCompatActivity() {
         checkLogIn()
         userButton.text = "Hello $userName\nClear data"
         setTexts()
+    }
+
+    fun a(){
+        val builder = AlertDialog.Builder(this@MainActivity)
+        builder.setMessage("Synchronisation failure.\nDo you want to continue?")
+            .setCancelable(false)
+            .setPositiveButton("Yes") { dialog, id ->
+                dialog.dismiss()
+                expired = false
+            }
+            .setNegativeButton("No") { dialog, id ->
+                dialog.dismiss()
+                finish()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     fun checkLogIn(){
@@ -204,6 +208,7 @@ class MainActivity : AppCompatActivity() {
                 userName = userNameField.text.toString()
                 userButton.text = "Hello $userName\nClear data"
                 dialog.dismiss()
+                Toast.makeText(this, "Syncing...", Toast.LENGTH_LONG).show()
                 sync(userName)
             }
         }
@@ -284,6 +289,7 @@ class MainActivity : AppCompatActivity() {
         return diff
     }
     fun sync(user: String) {
+        preparePopup()
         val currentDate = sdf.format(Date())
         lastSync = currentDate
         userName = user
@@ -301,7 +307,7 @@ class MainActivity : AppCompatActivity() {
         progressDialog.show()
     }
     suspend fun sleep(): Int {
-        delay(20000L) // pretend we are doing something useful here
+        delay(2000L) // pretend we are doing something useful here
         return 1
     }
     fun downloadData(q: String, filename: String, main:Boolean) {
@@ -515,7 +521,6 @@ class MainActivity : AppCompatActivity() {
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
                     dialog.dismiss()
-                    preparePopup()
                     sync(userName)
                 }
                 .setNegativeButton("No") { dialog, id ->
@@ -525,7 +530,6 @@ class MainActivity : AppCompatActivity() {
             alert.show()
         }
         else{
-            preparePopup()
             sync(userName)
         }
 
