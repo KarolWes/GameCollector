@@ -12,7 +12,6 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Button
 import android.widget.EditText
-import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import kotlinx.coroutines.async
@@ -65,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun doInBackground(vararg p0: String?): String {
+            //runOnUiThread(Runnable() {run { preparePopup() }})
 
             try {
                 val url = URL(u)
@@ -97,10 +97,13 @@ class MainActivity : AppCompatActivity() {
                 isStream.close()
                 fos.close()
             }catch (e: MalformedURLException){
+                //run{progressDialog.dismiss()}
                 return "Zły URL"
             }catch (e: FileNotFoundException){
+                //run{progressDialog.dismiss()}
                 return "Brak pilku"
             }catch (e: IOException){
+                //run{progressDialog.dismiss()}
                 return "wyjątek IO"
             }
             while(!saveRetry(name, main)){
@@ -108,16 +111,23 @@ class MainActivity : AppCompatActivity() {
                     sleepyHead()
                 }
                 else{
-                    a()
+                    runOnUiThread(Runnable() {
+                        run() {
+                            Toast.makeText(this@MainActivity, "Error", Toast.LENGTH_LONG)
+                        }
+                    })
+                    sleepyHead()
+                    finish()
                 }
             }
             downloadFinished = true
+            //run{progressDialog.dismiss()}
             return "success"
         }
 
     }
 
-
+    fun Boolean.toInt() = if (this) 1 else 0
     var saveFinished: Boolean = false
     var downloadFinished: Boolean = false
     var userName: String = "Karol"
@@ -243,14 +253,9 @@ class MainActivity : AppCompatActivity() {
         alert.show()
 
     }
-    fun finishSync(){
+    fun finishSync(user: String){
+
         val dbHandler = DBHandlerMain(this, null, null,  1)
-        for(i in 0 .. toCheck.size-1){
-            val res = checkIfAddOn(toCheck[i])
-            if(res == 1){
-                dbHandler.updateAddOn(toCheck[i], res)
-            }
-        }
         games = dbHandler.countGames()
         addons = dbHandler.countAddons()
         val currentDate = sdf.format(Date())
@@ -264,8 +269,8 @@ class MainActivity : AppCompatActivity() {
             out.write("$games\n")
             out.write("$addons\n")
         }
-        Toast.makeText(this, "Finished", Toast.LENGTH_LONG)
-        progressDialog.dismiss()
+        run{Toast.makeText(this, "Finished", Toast.LENGTH_LONG)}
+        //progressDialog.dismiss()
     }
 
     fun setTexts(){
@@ -293,10 +298,14 @@ class MainActivity : AppCompatActivity() {
         val currentDate = sdf.format(Date())
         lastSync = currentDate
         userName = user
-        val q = "https://boardgamegeek.com/xmlapi2/collection?username=$user&stats=1"
+        val q = "https://boardgamegeek.com/xmlapi2/collection?username=$user&stats=1&own=1&excludesubtype=boardgameexpansion"
         downloadData(q, user+"_collection", true)
         while(!saveFinished){}
-        finishSync()
+        saveFinished=false
+
+        getAddOn(user)
+        while(!saveFinished){}
+        finishSync(user)
 
     }
     fun preparePopup(){
@@ -307,7 +316,7 @@ class MainActivity : AppCompatActivity() {
         progressDialog.show()
     }
     suspend fun sleep(): Int {
-        delay(2000L) // pretend we are doing something useful here
+        delay(4000L) // pretend we are doing something useful here
         return 1
     }
     fun downloadData(q: String, filename: String, main:Boolean) {
@@ -331,7 +340,7 @@ class MainActivity : AppCompatActivity() {
         var cor: Boolean = false
         var c = 0
         while(!cor){
-            if(c == 10)
+            if(c == 15)
             {
                 expired = true
                 return false
@@ -353,12 +362,7 @@ class MainActivity : AppCompatActivity() {
             Files.deleteIfExists(Paths.get(filename))
             return false
         }else{
-            if(main){
-                saveDataMain(items)
-            }
-            else {
-                smallParser(items)
-            }
+            saveDataMain(items, !main)
             Files.deleteIfExists(Paths.get(filename))
             return true
         }
@@ -386,10 +390,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun saveDataMain(items: NodeList) {
+    private fun saveDataMain(items: NodeList, small: Boolean) {
         val dbHandler = DBHandlerMain(this, null, null,  1)
         val dbStat = DBHandlerStat(this, null, null, 1)
-        dbHandler.clear()
+        if(!small)
+        {dbHandler.clear()}
         for(i in 0..items.length-1){
             val itemNode: Node = items.item(i)
             if(itemNode.nodeType == Node.ELEMENT_NODE) {
@@ -414,34 +419,46 @@ class MainActivity : AppCompatActivity() {
                     val node = children.item(j)
                     if (node is Element) {
                         when (node.nodeName) {
-                            "name" -> {title = node.textContent}
-                            "yearpublished"->{year_pub = node.textContent}
-                            "thumbnail"->{pic = node.textContent}
-                            "stats"->{
+                            "name" -> {
+                                title = node.textContent
+                            }
+                            "yearpublished" -> {
+                                year_pub = node.textContent
+                            }
+                            "thumbnail" -> {
+                                pic = node.textContent
+                            }
+                            "stats" -> {
                                 val n = node.childNodes
-                                for(j1 in 0..n.length-1){
+                                for (j1 in 0..n.length - 1) {
                                     val node = n.item(j1)
-                                    if (node is Element){
+                                    if (node is Element) {
                                         when (node.nodeName) {
-                                            "rating"->{
+                                            "rating" -> {
                                                 val n = node.childNodes
-                                                for(j2 in 0..n.length-1){
+                                                for (j2 in 0..n.length - 1) {
                                                     val node = n.item(j2)
                                                     if (node is Element) {
                                                         when (node.nodeName) {
-                                                            "ranks"->{
+                                                            "ranks" -> {
                                                                 val n = node.childNodes
-                                                                for(j3 in 0..n.length-1){
+                                                                for (j3 in 0..n.length - 1) {
                                                                     val node = n.item(j3)
                                                                     if (node is Element) {
                                                                         val tags = node.attributes
-                                                                        for(j4 in 0..tags.length-1){
+                                                                        for (j4 in 0..tags.length - 1) {
                                                                             val node = tags.item(j4)
-                                                                            when (node.nodeName){
-                                                                                "id" -> {tmp = node.nodeValue}
-                                                                                "value" -> {rank_pos = node.nodeValue}
+                                                                            when (node.nodeName) {
+                                                                                "id" -> {
+                                                                                    tmp =
+                                                                                        node.nodeValue
+                                                                                }
+                                                                                "value" -> {
+                                                                                    rank_pos =
+                                                                                        node.nodeValue
+                                                                                }
                                                                             }
-                                                                            if(tmp == "1" && rank_pos != null){
+                                                                            if (tmp == "1" && rank_pos != null) {
                                                                                 break
                                                                             }
                                                                         }
@@ -460,9 +477,11 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 var _expansion: Int = 0
+                if(small){
+                    _expansion = 1
+                }
                 if(rank_pos == "Not Ranked" || rank_pos == null){
                     rank_pos = "0"
-                    toCheck.add(id.toString())
                 }
                 var _id: Int = Integer.parseInt(id)
                 var _title: String? = title
@@ -488,9 +507,9 @@ class MainActivity : AppCompatActivity() {
         }
         saveFinished = true
     }
-    fun checkIfAddOn(id: String):Int{
-        val q = "https://boardgamegeek.com/xmlapi2/thing?id=$id&stats=1"
-        downloadData(q, "tmp", false)
+    fun getAddOn(user: String):Int{
+        val q = "https://boardgamegeek.com/xmlapi2/collection?username=$user&stats=1&own=1&subtype=boardgameexpansion"
+        downloadData(q, "user_addons", false)
         while(!downloadFinished){}
         return globalAddonsCheck
     }
